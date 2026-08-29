@@ -15,18 +15,18 @@ const iconMap: Record<string, React.ElementType> = {
 
 export const AudienceSection: React.FC = () => {
   return (
-    <section id="para-quem-e" className="py-24 px-4 sm:px-6 lg:px-8 relative border-t border-[#0F4232]/40 bg-black/40">
+    <section id="para-quem-e" className="py-24 px-4 sm:px-6 lg:px-8 relative border-t border-[#0A382A] bg-black">
       <div className="max-w-7xl mx-auto space-y-16">
-        {/* Section Header */}
+        {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#00D889]">
+          <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#00F296]">
             <span>./02 Público-Alvo</span>
           </div>
-          <h2 className="font-display font-bold text-3xl sm:text-5xl text-white tracking-tight">
-            Uma pós. <span className="text-[#00D889]">Muitas profissões.</span>
+          <h2 className="font-display font-extrabold text-4xl sm:text-6xl text-white tracking-tight">
+            Uma pós. <span className="text-[#00F296]">Muitas profissões.</span>
           </h2>
-          <p className="text-base sm:text-lg text-[#D7E1DD]/80 font-light">
-            Se você possui um diploma de ensino superior (graduação), esta formação foi totalmente desenhada para permitir sua entrada de alto nível no universo da IA.
+          <p className="text-base sm:text-xl text-[#E2E8F0] font-light">
+            Se você possui um diploma de graduação concluído, esta formação foi projetada para sua transição de alto nível para o universo da Inteligência Artificial.
           </p>
         </div>
 
@@ -40,18 +40,15 @@ export const AudienceSection: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.08 }}
-                className="glass-card glass-card-hover rounded-2xl p-6 flex flex-col justify-between border border-[#0F4232] group relative overflow-hidden"
+                transition={{ duration: 0.4, delay: idx * 0.08 }}
+                className="glass-card glass-card-hover rounded-2xl p-6 flex flex-col justify-between group"
               >
-                {/* Accent ambient glow on card hover */}
-                <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#00D889]/10 rounded-full blur-2xl group-hover:bg-[#00D889]/25 transition-all" />
-
                 <div>
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#063D2C] border border-[#00D889]/40 flex items-center justify-center text-[#00D889]">
+                    <div className="w-10 h-10 rounded-xl bg-[#05140F] border border-[#00F296]/40 flex items-center justify-center text-[#00F296]">
                       <IconComponent className="w-5 h-5" />
                     </div>
-                    <h3 className="font-display font-bold text-lg text-white tracking-wide group-hover:text-[#00D889] transition-colors">
+                    <h3 className="font-display font-extrabold text-lg text-white group-hover:text-[#00F296] transition-colors">
                       {area.title}
                     </h3>
                   </div>
@@ -60,9 +57,9 @@ export const AudienceSection: React.FC = () => {
                     {area.careers.map((career) => (
                       <span
                         key={career}
-                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#041A13]/80 border border-[#0F4232] text-xs font-mono text-[#D7E1DD]"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-black border border-[#0A382A] text-xs font-mono text-[#E2E8F0]"
                       >
-                        <CheckCircle className="w-3 h-3 text-[#00D889]" />
+                        <CheckCircle className="w-3 h-3 text-[#00F296]" />
                         {career}
                       </span>
                     ))}
@@ -74,18 +71,18 @@ export const AudienceSection: React.FC = () => {
         </div>
 
         {/* Highlight Banner */}
-        <div className="p-8 rounded-2xl bg-gradient-to-r from-[#063D2C] via-[#0A261E] to-[#041A13] border border-[#00D889]/30 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-          <div className="space-y-2">
-            <h4 className="font-display font-bold text-xl text-white">
-              Sua área não está na lista acima?
+        <div className="p-8 rounded-2xl glass-card border border-[#00F296]/30 bg-gradient-to-r from-[#031F16] via-black to-black flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-2 text-center md:text-left">
+            <h4 className="font-display font-extrabold text-xl sm:text-2xl text-white">
+              Formação Multidisciplinar Aberta
             </h4>
-            <p className="text-sm text-[#D7E1DD]/90 font-light max-w-2xl">
-              Qualquer diploma de graduação concluída concede acesso. A inteligência artificial é transversal e aplicável a todas as carreiras do conhecimento.
+            <p className="text-sm text-[#E2E8F0] font-light max-w-2xl">
+              Qualquer diploma de graduação concluído concede acesso. A Inteligência Artificial é uma competência transversal aplicável a todas as carreiras.
             </p>
           </div>
           <a
             href="#inscricao"
-            className="px-6 py-3 bg-[#00D889] hover:bg-[#5EF2B0] text-[#041A13] font-display font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_20px_rgba(0,216,137,0.3)] whitespace-nowrap"
+            className="px-8 py-3.5 bg-[#00F296] hover:bg-[#6FFBC9] text-black font-display font-bold text-xs uppercase tracking-wider rounded-full shadow-[0_0_25px_rgba(0,242,150,0.4)] whitespace-nowrap transition-all"
           >
             Garantir Minha Vaga
           </a>

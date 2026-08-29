@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
-import { Sparkles, ChevronRight, Menu, X } from 'lucide-react';
+import { ChevronRight, Menu, X, Sparkles } from 'lucide-react';
 
 interface NavbarProps {
   onOpenForm: () => void;
@@ -27,50 +27,54 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenForm }) => {
   const navLinks = [
     { name: 'Visão Geral', href: '#visao-geral' },
     { name: 'Para Quem É', href: '#para-quem-e' },
+    { name: 'Jornada', href: '#jornada' },
     { name: 'Módulos', href: '#modulos' },
-    { name: 'Diferenciais', href: '#diferenciais' },
-    { name: 'Informações', href: '#informacoes' },
+    { name: 'Projetos', href: '#projetos' },
+    { name: 'Trilhas', href: '#trilhas' },
     { name: 'FAQ', href: '#faq' }
   ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-      {/* Scroll Progress Bar */}
+      {/* Top Scroll Progress Bar */}
       <motion.div
-        className="h-[2.5px] bg-gradient-to-r from-[#00D889] via-[#5EF2B0] to-[#D4C441] origin-left"
+        className="h-[2.5px] bg-gradient-to-r from-[#00F296] via-[#00E5FF] to-[#E2FF54] origin-left"
         style={{ scaleX }}
       />
 
       <nav
         className={`px-4 lg:px-8 py-3.5 transition-all duration-300 ${
           isScrolled
-            ? 'bg-[#041A13]/85 backdrop-blur-xl border-b border-[#0F4232]/60 shadow-2xl'
+            ? 'bg-black/90 backdrop-blur-2xl border-b border-[#0A382A] shadow-2xl'
             : 'bg-transparent border-b border-white/5'
         }`}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Logo / Institution Brand */}
-          <a href="#" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-[#063D2C] border border-[#00D889]/40 flex items-center justify-center text-[#00D889] group-hover:scale-105 group-hover:shadow-[0_0_15px_rgba(0,216,137,0.4)] transition-all">
-              <Sparkles className="w-5 h-5 animate-pulse" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-display font-bold text-white text-sm tracking-wider uppercase flex items-center gap-1.5">
-                PÓS IA <span className="text-[#00D889]">APLICADA</span>
+          {/* Official UNIVC Brand Logo */}
+          <a href="#" className="flex items-center gap-3 sm:gap-4 group">
+            <img
+              src="./assets/univc-logo-white-horiz.png"
+              alt="UNIVC - Centro Universitário Vale do Cricaré"
+              className="h-9 sm:h-11 w-auto object-contain transition-transform group-hover:scale-105"
+            />
+            <div className="h-7 w-[1px] bg-[#0A382A] hidden sm:block" />
+            <div className="hidden sm:flex flex-col">
+              <span className="font-display font-extrabold text-white text-xs tracking-wider uppercase flex items-center gap-1.5">
+                PÓS EM IA <span className="text-[#00F296]">APLICADA</span>
               </span>
-              <span className="text-[10px] text-[#88A699] tracking-widest font-mono uppercase">
-                Tecnologia & Inovação
+              <span className="text-[10px] text-[#94A3B8] font-mono tracking-widest uppercase">
+                Formação Executiva
               </span>
             </div>
           </a>
 
           {/* Desktop Nav Links */}
-          <div className="hidden lg:flex items-center gap-6 text-xs font-medium tracking-wide">
+          <div className="hidden lg:flex items-center gap-7 text-xs font-semibold tracking-wide">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="text-[#D7E1DD]/80 hover:text-[#00D889] transition-colors relative py-1 hover:after:w-full after:w-0 after:h-[2px] after:bg-[#00D889] after:absolute after:bottom-0 after:left-0 after:transition-all after:duration-300"
+                className="text-[#E2E8F0]/80 hover:text-[#00F296] transition-colors relative py-1 hover:after:w-full after:w-0 after:h-[2px] after:bg-[#00F296] after:absolute after:bottom-0 after:left-0 after:transition-all after:duration-300"
               >
                 {link.name}
               </a>
@@ -81,20 +85,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenForm }) => {
           <div className="hidden sm:flex items-center gap-3">
             <button
               onClick={onOpenForm}
-              className="relative group overflow-hidden rounded-full px-5 py-2.5 bg-[#00D889] text-[#041A13] font-display font-semibold text-xs tracking-wider uppercase transition-all duration-300 hover:shadow-[0_0_25px_rgba(0,216,137,0.6)] hover:scale-[1.02] active:scale-[0.98]"
+              className="relative group overflow-hidden rounded-full px-6 py-2.5 bg-[#00F296] text-black font-display font-bold text-xs tracking-wider uppercase transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,242,150,0.6)] hover:scale-105 active:scale-95"
             >
               <span className="relative z-10 flex items-center gap-1.5">
-                Inscreva-se Agora
+                Inscreva-se
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-[#5EF2B0] to-[#00D889] opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#00E5FF] to-[#00F296] opacity-0 group-hover:opacity-100 transition-opacity" />
             </button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-[#D7E1DD] hover:text-[#00D889] focus:outline-none"
+            className="lg:hidden p-2 text-[#E2E8F0] hover:text-[#00F296] focus:outline-none"
             aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -108,14 +112,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenForm }) => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="lg:hidden bg-[#041A13]/95 backdrop-blur-2xl border-b border-[#0F4232] px-6 py-6 space-y-4 shadow-2xl"
+          className="lg:hidden bg-black/95 backdrop-blur-2xl border-b border-[#0A382A] px-6 py-6 space-y-4 shadow-2xl"
         >
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
               onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm font-medium text-[#D7E1DD] hover:text-[#00D889] transition-colors"
+              className="block text-sm font-semibold text-[#E2E8F0] hover:text-[#00F296] transition-colors"
             >
               {link.name}
             </a>
@@ -125,7 +129,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenForm }) => {
               setMobileMenuOpen(false);
               onOpenForm();
             }}
-            className="w-full mt-4 py-3 bg-[#00D889] text-[#041A13] font-display font-semibold text-xs uppercase tracking-wider rounded-xl shadow-lg flex items-center justify-center gap-2"
+            className="w-full mt-4 py-3 bg-[#00F296] text-black font-display font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg flex items-center justify-center gap-2"
           >
             Inscreva-se Agora
             <ChevronRight className="w-4 h-4" />
