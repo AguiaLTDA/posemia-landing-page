@@ -23,10 +23,10 @@ export async function saveLeadToSheets(lead: LeadPayload): Promise<{ success: bo
     console.warn('Fallback localStorage notice:', err);
   }
 
-  // Google Apps Script Webhook URL from environment variables or window config
+  // Google Apps Script Webhook URL from environment variables or direct fallback
   const webhookUrl =
     (import.meta as any).env?.VITE_GOOGLE_SHEETS_WEBHOOK_URL ||
-    (window as any).__GOOGLE_SHEETS_WEBHOOK_URL__;
+    'https://script.google.com/macros/s/AKfycbzrcIZQ_5ffDphOi4d7FwgVnwfFyJXiIR-pKXkPmIz-trgU8OUhqGmUeKUoxR2OaJks5w/exec';
 
   if (webhookUrl && webhookUrl.trim() !== '') {
     try {
@@ -53,9 +53,8 @@ export async function saveLeadToSheets(lead: LeadPayload): Promise<{ success: bo
     }
   }
 
-  // If webhook URL is not yet configured by the user
   return {
     success: true,
-    message: 'Inscrição salva com sucesso (Configure a URL do Webhook do Google Sheets para sincronização em nuvem).'
+    message: 'Inscrição registrada com sucesso!'
   };
 }
