@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, ShieldCheck, CheckCircle2, Sparkles } from 'lucide-react';
+import { saveLeadToSheets, LeadPayload } from '../services/leadService';
+import { Send, ShieldCheck, CheckCircle2, Loader2, Database, Sparkles } from 'lucide-react';
 
 export const LeadFormSection: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<LeadPayload>({
     nome: '',
     whatsapp: '',
     email: '',
@@ -14,15 +15,28 @@ export const LeadFormSection: React.FC = () => {
     lgpd: false
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.lgpd) {
       alert('Por favor, aceite a política de privacidade LGPD.');
       return;
     }
-    setSubmitted(true);
+
+    setIsSubmitting(true);
+    try {
+      const res = await saveLeadToSheets(formData);
+      setStatusMessage(res.message);
+      setSubmitted(true);
+    } catch (err) {
+      console.error(err);
+      alert('Ocorreu um erro ao enviar a inscrição. Tente novamente.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -47,7 +61,7 @@ export const LeadFormSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Form Grid */}
+        {/* Form Container */}
         <div className="max-w-3xl mx-auto">
           <div className="glass-card rounded-3xl p-8 sm:p-12 border border-[#00D889]/40 shadow-[0_0_60px_rgba(0,216,137,0.15)] bg-gradient-to-br from-[#041A13] to-[#063D2C]/30">
             {submitted ? (
@@ -60,20 +74,50 @@ export const LeadFormSection: React.FC = () => {
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
                 <h3 className="font-display font-bold text-2xl text-white">
-                  Inscrição / Solicitação Enviada!
+                  Inscrição Confirmada!
                 </h3>
                 <p className="text-sm text-[#D7E1DD]/80 font-light max-w-md mx-auto">
-                  Obrigado, <strong className="text-white">{formData.nome}</strong>! Nossa equipe acadêmica entrará em contato via WhatsApp ({formData.whatsapp}) em instantes.
+                  Obrigado, <strong className="text-white">{formData.nome}</strong>! Sua inscrição foi registrada com sucesso.
                 </p>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="mt-4 px-6 py-2 rounded-xl bg-[#063D2C] text-xs font-mono text-[#00D889] hover:bg-[#00D889] hover:text-[#041A13] transition-colors"
-                >
-                  Enviar Outro Cadastro
-                </button>
+                <div className="p-3 rounded-xl bg-[#041A13] border border-[#00D889]/30 text-xs font-mono text-[#5EF2B0] inline-block">
+                  <span className="flex items-center justify-center gap-1.5">
+                    <Database className="w-4 h-4 text-[#00D889]" />
+                    {statusMessage}
+                  </span>
+                </div>
+                <div>
+                  <button
+                    onClick={() => {
+                      setSubmitted(false);
+                      setFormData({
+                        nome: '',
+                        whatsapp: '',
+                        email: '',
+                        formacao: '',
+                        profissao: '',
+                        cidade: '',
+                        areaInteresse: 'Saúde',
+                        lgpd: false
+                      });
+                    }}
+                    className="mt-4 px-6 py-2 rounded-xl bg-[#063D2C] text-xs font-mono text-[#00D889] hover:bg-[#00D889] hover:text-[#041A13] transition-colors"
+                  >
+                    Cadastrar Outra Pessoa
+                  </button>
+                </div>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="flex items-center justify-between border-b border-[#0F4232] pb-4">
+                  <span className="text-xs font-mono text-[#00D889] uppercase tracking-wider">
+                    Formulário de Inscrição Oficial
+                  </span>
+                  <span className="text-[11px] font-mono text-[#88A699] flex items-center gap-1">
+                    <Database className="w-3.5 h-3.5 text-[#00D889]" />
+                    Sincronizado com Google Sheets
+                  </span>
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {/* Nome */}
                   <div className="space-y-2">
@@ -192,9 +236,9 @@ export const LeadFormSection: React.FC = () => {
                     id="lgpd"
                     checked={formData.lgpd}
                     onChange={(e) => setFormData({ ...formData, lgpd: e.target.checked })}
-                    className="mt-1 accent-[#00D889] w-4 h-4 rounded"
+                    className="mt-1 accent-[#00D889] w-4 h-4 rounded cursor-pointer"
                   />
-                  <label htmlFor="lgpd" className="text-xs text-[#D7E1DD]/80 font-light leading-snug">
+                  <label htmlFor="lgpd" className="text-xs text-[#D7E1DD]/80 font-light leading-snug cursor-pointer">
                     Concordo em fornecer meus dados para contato da instituição sobre a pós-graduação, em conformidade com a <strong className="text-white">LGPD (Lei Geral de Proteção de Dados)</strong>.
                   </label>
                 </div>
@@ -203,16 +247,26 @@ export const LeadFormSection: React.FC = () => {
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <button
                     type="submit"
-                    className="flex-1 py-4 bg-[#00D889] hover:bg-[#5EF2B0] text-[#041A13] font-display font-bold text-xs uppercase tracking-widest rounded-xl shadow-[0_0_30px_rgba(0,216,137,0.4)] transition-all flex items-center justify-center gap-2 group"
+                    disabled={isSubmitting}
+                    className="flex-1 py-4 bg-[#00D889] hover:bg-[#5EF2B0] text-[#041A13] font-display font-bold text-xs uppercase tracking-widest rounded-xl shadow-[0_0_30px_rgba(0,216,137,0.4)] transition-all flex items-center justify-center gap-2 group disabled:opacity-50"
                   >
-                    <span>QUERO FAZER PARTE</span>
-                    <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>ENVIANDO E REGISTRANDO...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>QUERO FAZER PARTE</span>
+                        <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </>
+                    )}
                   </button>
 
                   <button
-                    type="button"
-                    onClick={handleSubmit}
-                    className="px-6 py-4 glass-card border border-[#0F4232] text-xs font-display font-semibold text-white uppercase tracking-wider rounded-xl hover:border-[#00D889]/50 transition-colors"
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="px-6 py-4 glass-card border border-[#0F4232] text-xs font-display font-semibold text-white uppercase tracking-wider rounded-xl hover:border-[#00D889]/50 transition-colors disabled:opacity-50"
                   >
                     RECEBER MAIS INFORMAÇÕES
                   </button>
