@@ -8,5 +8,5 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  base: './', // Relative base path for GitHub Pages compatibility
+  base: '/posemia-landing-page/', // Explicit repository path for GitHub Pages
 });
