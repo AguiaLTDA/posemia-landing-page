@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Inter', sans-serif;
+  --font-sans: 'Outfit', sans-serif;
   --font-display: 'Space Grotesk', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-serif: 'Instrument Serif', serif;
   
   --color-base-dark: #041A13;
   --color-base-black: #020B08;
@@ -24,12 +24,16 @@
   body {
     background-color: #041A13;
     color: #D7E1DD;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Outfit', sans-serif;
     overflow-x: hidden;
   }
 }
 
 /* Text outline effects for watermark & headlines */
+.font-serif {
+  font-family: 'Instrument Serif', Georgia, serif;
+}
+
 .text-outline-neon {
   -webkit-text-stroke: 1.5px rgba(0, 216, 137, 0.4);
   color: transparent;

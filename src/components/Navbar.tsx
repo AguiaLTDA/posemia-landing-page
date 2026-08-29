@@ -27,10 +27,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenForm }) => {
   const navLinks = [
     { name: 'Visão Geral', href: '#visao-geral' },
     { name: 'Para Quem É', href: '#para-quem-e' },
-    { name: 'Jornada', href: '#jornada' },
     { name: 'Módulos', href: '#modulos' },
-    { name: 'Projetos', href: '#projetos' },
-    { name: 'Trilhas', href: '#trilhas' },
+    { name: 'Diferenciais', href: '#diferenciais' },
+    { name: 'Informações', href: '#informacoes' },
     { name: 'FAQ', href: '#faq' }
   ];
 

@@ -44,19 +44,19 @@ export const LeadFormSection: React.FC = () => {
       <div className="max-w-7xl mx-auto space-y-16">
         {/* Top Banner Content */}
         <div className="text-center max-w-4xl mx-auto space-y-6">
-          <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#00D889]">
-            <span>./16 Inscrições Abertas</span>
+          <div className="inline-flex items-center gap-2 text-xs font-display uppercase tracking-widest text-[#00D889]">
+            <span>./06 Inscrições Abertas</span>
           </div>
 
-          <h2 className="font-display font-extrabold text-4xl sm:text-6xl text-white tracking-tight leading-tight">
-            O futuro da sua profissão <span className="text-[#00D889]">já começou.</span>
+          <h2 className="font-serif text-4xl sm:text-6xl text-white tracking-tight leading-tight">
+            O futuro da sua profissão <span className="italic font-serif text-[#00D889] font-normal">já começou.</span>
           </h2>
 
-          <p className="text-base sm:text-xl text-[#D7E1DD]/90 font-light max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg text-[#D7E1DD]/85 font-light max-w-3xl mx-auto">
             A Inteligência Artificial não substituirá simplesmente profissões. Ela transformará radicalmente a maneira como profissionais trabalham.
           </p>
 
-          <div className="p-4 rounded-2xl bg-[#063D2C]/60 border border-[#00D889]/40 text-[#5EF2B0] font-mono text-sm sm:text-base font-semibold max-w-2xl mx-auto shadow-[0_0_30px_rgba(0,216,137,0.2)]">
+          <div className="p-4 border border-[#00D889]/40 bg-[#063D2C]/40 text-[#5EF2B0] font-serif italic text-base sm:text-lg max-w-2xl mx-auto">
             “Prepare-se para trabalhar com IA — e não competir contra ela.”
           </div>
         </div>
