@@ -23,19 +23,19 @@ export async function saveLeadToSheets(lead: LeadPayload): Promise<{ success: bo
     console.warn('Fallback localStorage notice:', err);
   }
 
-  // Google Apps Script Webhook URL from environment variables or direct fallback
+  // Google Apps Script Webhook URL
   const webhookUrl =
     (import.meta as any).env?.VITE_GOOGLE_SHEETS_WEBHOOK_URL ||
     'https://script.google.com/macros/s/AKfycbzrcIZQ_5ffDphOi4d7FwgVnwfFyJXiIR-pKXkPmIz-trgU8OUhqGmUeKUoxR2OaJks5w/exec';
 
   if (webhookUrl && webhookUrl.trim() !== '') {
     try {
-      // Send data to Google Apps Script Webhook endpoint
+      // Send data as text/plain or JSON to Google Apps Script Webhook endpoint
       await fetch(webhookUrl, {
         method: 'POST',
-        mode: 'no-cors', // Google Apps Script redirects require no-cors mode
+        mode: 'no-cors', // Google Apps Script redirects require no-cors mode in browsers
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'text/plain;charset=utf-8'
         },
         body: JSON.stringify(fullPayload)
       });
