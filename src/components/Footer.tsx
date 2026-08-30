@@ -8,7 +8,7 @@ export const Footer: React.FC = () => {
           {/* Marca institucional */}
           <div className="md:col-span-5">
             <img
-              src="./assets/univc-logo-white-vert.png"
+              src="/assets/univc-logo-white-vert.png"
               alt="UNIVC - Centro Universitário Vale do Cricaré"
               className="h-14 w-auto object-contain"
             />

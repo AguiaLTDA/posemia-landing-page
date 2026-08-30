@@ -40,7 +40,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenForm }) => {
           {/* Marca institucional */}
           <a href="#" className="flex items-center gap-3.5 shrink-0" aria-label="UNIVC — página inicial">
             <img
-              src="./assets/univc-logo-green.png"
+              src="/assets/univc-logo-green.png"
               alt="UNIVC - Centro Universitário Vale do Cricaré"
               className="h-11 sm:h-12 w-auto object-contain"
             />
