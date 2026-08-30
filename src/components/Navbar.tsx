@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
-import { ChevronRight, Menu, X, Sparkles } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 interface NavbarProps {
   onOpenForm: () => void;
@@ -9,18 +8,11 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ onOpenForm }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 40) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => setIsScrolled(window.scrollY > 40);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -29,112 +21,94 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenForm }) => {
     { name: 'Para Quem É', href: '#para-quem-e' },
     { name: 'Jornada', href: '#jornada' },
     { name: 'Módulos', href: '#modulos' },
-    { name: 'Projetos', href: '#projetos' },
+    { name: 'Complementares', href: '#complementares' },
     { name: 'Trilhas', href: '#trilhas' },
     { name: 'FAQ', href: '#faq' }
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-      {/* Top Scroll Progress Bar */}
-      <motion.div
-        className="h-[2.5px] bg-gradient-to-r from-[#00F296] via-[#00E5FF] to-[#E2FF54] origin-left"
-        style={{ scaleX }}
-      />
-
+    <header className="fixed top-0 left-0 right-0 z-50">
       <nav
-        className={`px-4 lg:px-8 py-3.5 transition-all duration-300 ${
+        className={`transition-[background-color,border-color,backdrop-filter] duration-500 ${
           isScrolled
-            ? 'bg-black/90 backdrop-blur-2xl border-b border-[#0A382A] shadow-2xl'
-            : 'bg-transparent border-b border-white/5'
+            ? 'bg-[#F4F5F0]/85 backdrop-blur-xl border-b border-[#DDE3DF]'
+            : 'bg-transparent border-b border-transparent'
         }`}
+        style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Official UNIVC Brand Logo */}
-          <a href="#" className="flex items-center gap-3 sm:gap-4 group">
+        <div className="container-page flex items-center justify-between h-[72px]">
+          {/* Marca institucional */}
+          <a href="#" className="flex items-center gap-3.5 shrink-0" aria-label="UNIVC — página inicial">
             <img
-              src="./assets/univc-logo-white-horiz.png"
+              src="./assets/univc-logo-green.png"
               alt="UNIVC - Centro Universitário Vale do Cricaré"
-              className="h-9 sm:h-11 w-auto object-contain transition-transform group-hover:scale-105"
+              className="h-11 sm:h-12 w-auto object-contain"
             />
-            <div className="h-7 w-[1px] bg-[#0A382A] hidden sm:block" />
-            <div className="hidden sm:flex flex-col">
-              <span className="font-display font-extrabold text-white text-xs tracking-wider uppercase flex items-center gap-1.5">
-                PÓS EM IA <span className="text-[#00F296]">APLICADA</span>
+            <span className="h-7 w-px bg-[#DDE3DF] shrink-0" />
+            <span className="text-[11px] sm:text-[12px] leading-tight text-[#3E4A45]">
+              Pós-graduação em<br />
+              <span className="font-display font-semibold text-[12px] sm:text-[13.5px] text-[#103B32]">
+                Inteligência Artificial
               </span>
-              <span className="text-[10px] text-[#94A3B8] font-mono tracking-widest uppercase">
-                Formação Executiva
-              </span>
-            </div>
+            </span>
           </a>
 
-          {/* Desktop Nav Links */}
-          <div className="hidden lg:flex items-center gap-7 text-xs font-semibold tracking-wide">
+          {/* Navegação principal */}
+          <div className="hidden xl:flex items-center gap-6 text-[14px]">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="text-[#E2E8F0]/80 hover:text-[#00F296] transition-colors relative py-1 hover:after:w-full after:w-0 after:h-[2px] after:bg-[#00F296] after:absolute after:bottom-0 after:left-0 after:transition-all after:duration-300"
+                className="text-[#3E4A45] hover:text-[#103B32] transition-colors duration-300"
               >
                 {link.name}
               </a>
             ))}
           </div>
 
-          {/* Right Action CTA */}
-          <div className="hidden sm:flex items-center gap-3">
+          {/* CTA + menu mobile */}
+          <div className="flex items-center gap-2">
+            <button onClick={onOpenForm} className="btn btn-primary hidden sm:inline-flex py-2.5 px-5 text-[14px]">
+              Inscreva-se
+            </button>
+
             <button
-              onClick={onOpenForm}
-              className="relative group overflow-hidden rounded-full px-6 py-2.5 bg-[#00F296] text-black font-display font-bold text-xs tracking-wider uppercase transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,242,150,0.6)] hover:scale-105 active:scale-95"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="xl:hidden p-2 -mr-2 text-[#19211E]"
+              aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+              aria-expanded={mobileMenuOpen}
             >
-              <span className="relative z-10 flex items-center gap-1.5">
-                Inscreva-se
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-[#00E5FF] to-[#00F296] opacity-0 group-hover:opacity-100 transition-opacity" />
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-[#E2E8F0] hover:text-[#00F296] focus:outline-none"
-            aria-label="Toggle Navigation Menu"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
         </div>
       </nav>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Menu mobile */}
       {mobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          className="lg:hidden bg-black/95 backdrop-blur-2xl border-b border-[#0A382A] px-6 py-6 space-y-4 shadow-2xl"
-        >
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm font-semibold text-[#E2E8F0] hover:text-[#00F296] transition-colors"
+        <div className="xl:hidden bg-[#F4F5F0]/97 backdrop-blur-xl border-b border-[#DDE3DF]">
+          <div className="container-page py-6 flex flex-col">
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="py-3 border-b border-[#DDE3DF] text-[15px] text-[#19211E]"
+              >
+                {link.name}
+              </a>
+            ))}
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenForm();
+              }}
+              className="btn btn-primary w-full mt-6"
             >
-              {link.name}
-            </a>
-          ))}
-          <button
-            onClick={() => {
-              setMobileMenuOpen(false);
-              onOpenForm();
-            }}
-            className="w-full mt-4 py-3 bg-[#00F296] text-black font-display font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg flex items-center justify-center gap-2"
-          >
-            Inscreva-se Agora
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </motion.div>
+              Inscreva-se
+            </button>
+          </div>
+        </div>
       )}
     </header>
   );

@@ -1,78 +1,87 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { FAQ_ITEMS } from '../data/courseData';
-import { ChevronDown } from 'lucide-react';
+import { Plus } from 'lucide-react';
+import { Reveal } from './Reveal';
 
 export const FaqSection: React.FC = () => {
   const [openId, setOpenId] = useState<number | null>(1);
+  const reduceMotion = useReducedMotion();
 
-  const toggle = (id: number) => {
-    setOpenId(openId === id ? null : id);
-  };
+  const toggle = (id: number) => setOpenId(openId === id ? null : id);
 
   return (
-    <section id="faq" className="py-24 px-4 sm:px-6 lg:px-8 relative border-t border-[#0F4232]/50 bg-[#041A13]">
-      <div className="max-w-4xl mx-auto space-y-16">
-        {/* Header */}
-        <div className="space-y-4">
-          <span className="text-xs font-display text-[#00D889] uppercase tracking-widest block">
-            ./07 Tira-Dúvidas
-          </span>
-          <h2 className="font-serif text-4xl sm:text-6xl text-white tracking-tight leading-tight">
-            Perguntas <span className="italic font-serif text-[#00D889] font-normal">Frequentes.</span>
-          </h2>
-          <p className="text-base text-[#D7E1DD]/85 font-light">
-            Esclareça suas principais dúvidas sobre o formato, pré-requisitos e metodologia do curso.
-          </p>
-        </div>
+    <section id="faq" className="surface-shell section">
+      <div className="container-page">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+          {/* Cabeçalho */}
+          <div className="lg:col-span-4">
+            <Reveal>
+              <p className="t-eyebrow">Tira-dúvidas</p>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h2 className="t-h2 mt-6">
+                Perguntas <span className="t-serif text-[#1E4C41]">frequentes.</span>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.14}>
+              <p className="t-body mt-5">
+                Esclareça suas principais dúvidas sobre o formato, pré-requisitos e metodologia do
+                curso.
+              </p>
+            </Reveal>
+          </div>
 
-        {/* Accordions */}
-        <div className="space-y-3">
-          {FAQ_ITEMS.map((item) => {
-            const isOpen = openId === item.id;
-            return (
-              <div
-                key={item.id}
-                className="border border-[#0F4232]/60 bg-[#041A13] overflow-hidden transition-all"
-              >
-                <button
-                  onClick={() => toggle(item.id)}
-                  className="w-full p-6 flex items-center justify-between text-left hover:bg-[#063D2C]/20 transition-colors focus:outline-none cursor-pointer"
-                >
-                  <div className="flex items-center gap-4">
-                    <span className="font-display text-xs font-bold text-[#00D889]">
-                      0{item.id}.
-                    </span>
-                    <h3 className="font-display font-medium text-base sm:text-lg text-white">
-                      {item.question}
-                    </h3>
-                  </div>
-                  <ChevronDown
-                    className={`w-5 h-5 text-[#00D889] transition-transform duration-300 ${
-                      isOpen ? 'rotate-180' : ''
-                    }`}
-                  />
-                </button>
+          {/* Accordion */}
+          <div className="lg:col-span-8 border-t border-[#DDE3DF]">
+            {FAQ_ITEMS.map((item) => {
+              const isOpen = openId === item.id;
+              const panelId = `faq-painel-${item.id}`;
 
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="px-6 pb-6 pt-2 border-t border-[#0F4232]/50 text-sm text-[#D7E1DD]/85 font-light leading-relaxed bg-[#041A13]"
+              return (
+                <div key={item.id} className="border-b border-[#DDE3DF]">
+                  <h3>
+                    <button
+                      onClick={() => toggle(item.id)}
+                      aria-expanded={isOpen}
+                      aria-controls={panelId}
+                      className="w-full py-6 flex items-center gap-6 text-left cursor-pointer group"
                     >
-                      {item.answer}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
+                      <span className="flex-1 font-display font-medium text-[1.05rem] sm:text-[1.2rem] leading-snug text-[#19211E]">
+                        {item.question}
+                      </span>
+                      <span
+                        className={`shrink-0 w-8 h-8 rounded-full border border-[#DDE3DF] flex items-center justify-center text-[#103B32] transition-transform duration-500 ${
+                          isOpen ? 'rotate-45 bg-[#E4F4EC] border-[#35C985]/40' : ''
+                        }`}
+                        style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
+                        aria-hidden="true"
+                      >
+                        <Plus className="w-4 h-4" strokeWidth={1.75} />
+                      </span>
+                    </button>
+                  </h3>
+
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        id={panelId}
+                        initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
+                        transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <p className="pb-7 pr-12 t-body max-w-[60ch]">{item.answer}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
   );
 };
-

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { saveLeadToSheets, LeadPayload } from '../services/leadService';
-import { Send, CheckCircle2, Loader2, Database } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
+import { Reveal } from './Reveal';
 
 export const LeadFormSection: React.FC = () => {
   const [formData, setFormData] = useState<LeadPayload>({
@@ -40,239 +40,221 @@ export const LeadFormSection: React.FC = () => {
   };
 
   return (
-    <section id="inscricao" className="py-24 px-4 sm:px-6 lg:px-8 relative border-t border-[#0A382A] bg-black">
-      <div className="max-w-7xl mx-auto space-y-16">
-        {/* Top Banner Content */}
-        <div className="text-center max-w-4xl mx-auto space-y-6">
-          <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#00F296]">
-            <span>./16 Inscrições Abertas UNIVC</span>
+    <section id="inscricao" className="surface-forest on-forest section">
+      <div className="container-page">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-16">
+          {/* Encerramento emocional da narrativa */}
+          <div className="lg:col-span-5">
+            <Reveal>
+              <p className="t-eyebrow">Inscrições abertas</p>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h2 className="t-display mt-6 text-[clamp(2.3rem,4.6vw,3.6rem)]">
+                O futuro da sua profissão{' '}
+                <span className="t-serif text-[#8FE3BA]">já começou.</span>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.14}>
+              <p className="t-lead mt-7">
+                A Inteligência Artificial transformará radicalmente a maneira como profissionais
+                trabalham em todas as áreas.
+              </p>
+              <p className="t-serif text-[1.3rem] leading-snug text-[#8FE3BA] mt-8 pl-5 border-l border-[#35C985]">
+                “Prepare-se para trabalhar com IA — e não competir contra ela.”
+              </p>
+            </Reveal>
           </div>
 
-          <h2 className="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl text-white tracking-tight leading-tight">
-            O futuro da sua profissão <span className="text-[#00F296]">já começou.</span>
-          </h2>
-
-          <p className="text-base sm:text-xl text-[#E2E8F0] font-light max-w-3xl mx-auto">
-            A Inteligência Artificial transformará radicalmente a maneira como profissionais trabalham em todas as áreas.
-          </p>
-
-          <div className="p-4 rounded-2xl bg-[#031F16] border border-[#00F296]/40 text-[#00F296] font-mono text-sm sm:text-base font-semibold max-w-2xl mx-auto shadow-[0_0_30px_rgba(0,242,150,0.2)]">
-            “Prepare-se para trabalhar com IA — e não competir contra ela.”
-          </div>
-        </div>
-
-        {/* Form Container */}
-        <div className="max-w-3xl mx-auto">
-          <div className="glass-card rounded-3xl p-8 sm:p-12 border border-[#00F296]/40 shadow-[0_0_60px_rgba(0,242,150,0.15)] bg-black/90">
-            {submitted ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="text-center py-12 space-y-4"
-              >
-                <div className="w-16 h-16 rounded-full bg-[#00F296]/20 border border-[#00F296] flex items-center justify-center text-[#00F296] mx-auto">
-                  <CheckCircle2 className="w-8 h-8" />
-                </div>
-                <h3 className="font-display font-extrabold text-2xl text-white">
-                  Inscrição Confirmada!
-                </h3>
-                <p className="text-sm text-[#E2E8F0] font-light max-w-md mx-auto">
-                  Obrigado, <strong className="text-white">{formData.nome}</strong>! Sua inscrição na Pós-Graduação UNIVC foi registrada.
-                </p>
-                <div className="p-3 rounded-xl bg-black border border-[#00F296]/30 text-xs font-mono text-[#00F296] inline-block">
-                  <span className="flex items-center justify-center gap-1.5">
-                    <Database className="w-4 h-4 text-[#00F296]" />
-                    {statusMessage}
-                  </span>
-                </div>
-                <div>
-                  <button
-                    onClick={() => {
-                      setSubmitted(false);
-                      setFormData({
-                        nome: '',
-                        whatsapp: '',
-                        email: '',
-                        formacao: '',
-                        profissao: '',
-                        cidade: '',
-                        areaInteresse: 'Saúde',
-                        lgpd: false
-                      });
-                    }}
-                    className="mt-4 px-6 py-2 rounded-xl bg-[#031F16] text-xs font-mono text-[#00F296] hover:bg-[#00F296] hover:text-black transition-colors"
-                  >
-                    Cadastrar Outra Pessoa
-                  </button>
-                </div>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="flex items-center justify-between border-b border-[#0A382A] pb-4">
-                  <span className="text-xs font-mono text-[#00F296] uppercase tracking-wider">
-                    Formulário de Inscrição Oficial
-                  </span>
-                  <span className="text-[11px] font-mono text-[#94A3B8] flex items-center gap-1">
-                    <Database className="w-3.5 h-3.5 text-[#00F296]" />
-                    Integração Google Sheets
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {/* Nome */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-mono text-[#94A3B8] uppercase tracking-wider block">
-                      Nome Completo *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Seu nome"
-                      value={formData.nome}
-                      onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
-                      className="w-full bg-black border border-[#0A382A] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00F296] transition-colors"
-                    />
+          {/* Formulário */}
+          <div className="lg:col-span-7">
+            <Reveal delay={0.1} y={24}>
+              <div className="on-light bg-white rounded-[24px] p-7 sm:p-10 text-[#19211E]">
+                {submitted ? (
+                  <div className="py-10 text-center">
+                    <div className="w-12 h-12 rounded-full bg-[#E4F4EC] flex items-center justify-center mx-auto">
+                      <span className="dot-accent w-3 h-3" aria-hidden="true" />
+                    </div>
+                    <h3 className="t-h3 mt-6">Inscrição confirmada</h3>
+                    <p className="t-body mt-3 max-w-md mx-auto">
+                      Obrigado, <strong className="font-medium text-[#19211E]">{formData.nome}</strong>!
+                      Sua inscrição na Pós-Graduação UNIVC foi registrada.
+                    </p>
+                    <p className="t-micro mt-4">{statusMessage}</p>
+                    <button
+                      onClick={() => {
+                        setSubmitted(false);
+                        setFormData({
+                          nome: '',
+                          whatsapp: '',
+                          email: '',
+                          formacao: '',
+                          profissao: '',
+                          cidade: '',
+                          areaInteresse: 'Saúde',
+                          lgpd: false
+                        });
+                      }}
+                      className="btn btn-secondary mt-8"
+                    >
+                      Cadastrar outra pessoa
+                    </button>
                   </div>
+                ) : (
+                  <form onSubmit={handleSubmit}>
+                    <div className="pb-6 border-b border-[#DDE3DF]">
+                      <h3 className="t-h4">Formulário de inscrição</h3>
+                      <p className="t-micro mt-1">Retornaremos com todas as informações da turma.</p>
+                    </div>
 
-                  {/* WhatsApp */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-mono text-[#94A3B8] uppercase tracking-wider block">
-                      WhatsApp *
-                    </label>
-                    <input
-                      type="tel"
-                      required
-                      placeholder="(00) 00000-0000"
-                      value={formData.whatsapp}
-                      onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
-                      className="w-full bg-black border border-[#0A382A] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00F296] transition-colors"
-                    />
-                  </div>
+                    <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      <div>
+                        <label htmlFor="nome" className="field-label">
+                          Nome completo *
+                        </label>
+                        <input
+                          id="nome"
+                          type="text"
+                          required
+                          placeholder="Seu nome"
+                          value={formData.nome}
+                          onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
+                          className="field-input"
+                        />
+                      </div>
 
-                  {/* E-mail */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-mono text-[#94A3B8] uppercase tracking-wider block">
-                      E-mail *
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      placeholder="seu.email@exemplo.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full bg-black border border-[#0A382A] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00F296] transition-colors"
-                    />
-                  </div>
+                      <div>
+                        <label htmlFor="whatsapp" className="field-label">
+                          WhatsApp *
+                        </label>
+                        <input
+                          id="whatsapp"
+                          type="tel"
+                          required
+                          placeholder="(00) 00000-0000"
+                          value={formData.whatsapp}
+                          onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
+                          className="field-input"
+                        />
+                      </div>
 
-                  {/* Formação */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-mono text-[#94A3B8] uppercase tracking-wider block">
-                      Curso de Formação (Graduação) *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Ex: Medicina, Direito, Administração..."
-                      value={formData.formacao}
-                      onChange={(e) => setFormData({ ...formData, formacao: e.target.value })}
-                      className="w-full bg-black border border-[#0A382A] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00F296] transition-colors"
-                    />
-                  </div>
+                      <div>
+                        <label htmlFor="email" className="field-label">
+                          E-mail *
+                        </label>
+                        <input
+                          id="email"
+                          type="email"
+                          required
+                          placeholder="seu.email@exemplo.com"
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          className="field-input"
+                        />
+                      </div>
 
-                  {/* Profissão */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-mono text-[#94A3B8] uppercase tracking-wider block">
-                      Profissão / Cargo Atual
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Ex: Médico, Advogado, Analista..."
-                      value={formData.profissao}
-                      onChange={(e) => setFormData({ ...formData, profissao: e.target.value })}
-                      className="w-full bg-black border border-[#0A382A] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00F296] transition-colors"
-                    />
-                  </div>
+                      <div>
+                        <label htmlFor="formacao" className="field-label">
+                          Curso de formação (graduação) *
+                        </label>
+                        <input
+                          id="formacao"
+                          type="text"
+                          required
+                          placeholder="Ex: Medicina, Direito, Administração..."
+                          value={formData.formacao}
+                          onChange={(e) => setFormData({ ...formData, formacao: e.target.value })}
+                          className="field-input"
+                        />
+                      </div>
 
-                  {/* Cidade */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-mono text-[#94A3B8] uppercase tracking-wider block">
-                      Cidade / Estado *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Ex: São Mateus / ES"
-                      value={formData.cidade}
-                      onChange={(e) => setFormData({ ...formData, cidade: e.target.value })}
-                      className="w-full bg-black border border-[#0A382A] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00F296] transition-colors"
-                    />
-                  </div>
-                </div>
+                      <div>
+                        <label htmlFor="profissao" className="field-label">
+                          Profissão / cargo atual
+                        </label>
+                        <input
+                          id="profissao"
+                          type="text"
+                          placeholder="Ex: Médico, Advogado, Analista..."
+                          value={formData.profissao}
+                          onChange={(e) => setFormData({ ...formData, profissao: e.target.value })}
+                          className="field-input"
+                        />
+                      </div>
 
-                {/* Área de Interesse Dropdown */}
-                <div className="space-y-2">
-                  <label className="text-xs font-mono text-[#94A3B8] uppercase tracking-wider block">
-                    Trilha de Interesse Principal
-                  </label>
-                  <select
-                    value={formData.areaInteresse}
-                    onChange={(e) => setFormData({ ...formData, areaInteresse: e.target.value })}
-                    className="w-full bg-black border border-[#0A382A] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00F296] transition-colors"
-                  >
-                    <option value="Saúde">Saúde</option>
-                    <option value="Engenharias e Agro">Engenharias e Agro</option>
-                    <option value="Tecnologia">Tecnologia</option>
-                    <option value="Direito">Direito</option>
-                    <option value="Negócios">Negócios</option>
-                    <option value="Educação">Educação</option>
-                    <option value="Comunicação e Criatividade">Comunicação e Criatividade</option>
-                  </select>
-                </div>
+                      <div>
+                        <label htmlFor="cidade" className="field-label">
+                          Cidade / estado *
+                        </label>
+                        <input
+                          id="cidade"
+                          type="text"
+                          required
+                          placeholder="Ex: São Mateus / ES"
+                          value={formData.cidade}
+                          onChange={(e) => setFormData({ ...formData, cidade: e.target.value })}
+                          className="field-input"
+                        />
+                      </div>
+                    </div>
 
-                {/* LGPD Checkbox */}
-                <div className="flex items-start gap-3 pt-2">
-                  <input
-                    type="checkbox"
-                    id="lgpd"
-                    checked={formData.lgpd}
-                    onChange={(e) => setFormData({ ...formData, lgpd: e.target.checked })}
-                    className="mt-1 accent-[#00F296] w-4 h-4 rounded cursor-pointer"
-                  />
-                  <label htmlFor="lgpd" className="text-xs text-[#E2E8F0] font-light leading-snug cursor-pointer">
-                    Concordo em fornecer meus dados para contato da instituição UNIVC sobre a pós-graduação, em conformidade com a <strong className="text-white">LGPD (Lei Geral de Proteção de Dados)</strong>.
-                  </label>
-                </div>
+                    <div className="mt-5">
+                      <label htmlFor="areaInteresse" className="field-label">
+                        Trilha de interesse principal
+                      </label>
+                      <select
+                        id="areaInteresse"
+                        value={formData.areaInteresse}
+                        onChange={(e) => setFormData({ ...formData, areaInteresse: e.target.value })}
+                        className="field-input"
+                      >
+                        <option value="Saúde">Saúde</option>
+                        <option value="Engenharias e Agro">Engenharias e Agro</option>
+                        <option value="Tecnologia">Tecnologia</option>
+                        <option value="Direito">Direito</option>
+                        <option value="Negócios">Negócios</option>
+                        <option value="Educação">Educação</option>
+                        <option value="Comunicação e Criatividade">Comunicação e Criatividade</option>
+                      </select>
+                    </div>
 
-                {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="flex-1 py-4 bg-[#00F296] hover:bg-[#6FFBC9] text-black font-display font-bold text-xs uppercase tracking-widest rounded-xl shadow-[0_0_30px_rgba(0,242,150,0.4)] transition-all flex items-center justify-center gap-2 group disabled:opacity-50"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        <span>ENVIANDO INSCRIÇÃO...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>QUERO FAZER PARTE</span>
-                        <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </>
-                    )}
-                  </button>
+                    <div className="mt-6 flex items-start gap-3">
+                      <input
+                        type="checkbox"
+                        id="lgpd"
+                        checked={formData.lgpd}
+                        onChange={(e) => setFormData({ ...formData, lgpd: e.target.checked })}
+                        className="mt-1 w-4 h-4 accent-[#103B32] cursor-pointer"
+                      />
+                      <label htmlFor="lgpd" className="text-[14px] leading-snug text-[#3E4A45] cursor-pointer">
+                        Concordo em fornecer meus dados para contato da instituição UNIVC sobre a
+                        pós-graduação, em conformidade com a{' '}
+                        <strong className="font-medium text-[#19211E]">
+                          LGPD (Lei Geral de Proteção de Dados)
+                        </strong>
+                        .
+                      </label>
+                    </div>
 
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="px-6 py-4 glass-card border border-[#0A382A] text-xs font-display font-semibold text-white uppercase tracking-wider rounded-xl hover:border-[#00F296]/50 transition-colors disabled:opacity-50"
-                  >
-                    RECEBER INFORMAÇÕES
-                  </button>
-                </div>
-              </form>
-            )}
+                    <div className="mt-8 flex flex-col sm:flex-row gap-3">
+                      <button type="submit" disabled={isSubmitting} className="btn btn-primary flex-1">
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <span>Enviando inscrição...</span>
+                          </>
+                        ) : (
+                          <span>Quero fazer parte</span>
+                        )}
+                      </button>
+
+                      <button type="submit" disabled={isSubmitting} className="btn btn-secondary">
+                        Receber informações
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
+            </Reveal>
           </div>
         </div>
       </div>
