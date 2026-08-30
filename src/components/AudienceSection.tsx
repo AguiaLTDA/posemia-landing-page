@@ -1,92 +1,81 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { AREAS_DATA } from '../data/courseData';
-import { Activity, Compass, Terminal, Scale, PieChart, BookOpen, PenTool, CheckCircle } from 'lucide-react';
-
-const iconMap: Record<string, React.ElementType> = {
-  Activity,
-  Compass,
-  Terminal,
-  Scale,
-  PieChart,
-  BookOpen,
-  PenTool
-};
+import { Reveal } from './Reveal';
 
 export const AudienceSection: React.FC = () => {
   return (
-    <section id="para-quem-e" className="py-24 px-4 sm:px-6 lg:px-8 relative border-t border-[#0A382A] bg-black">
-      <div className="max-w-7xl mx-auto space-y-16">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#00F296]">
-            <span>./02 Público-Alvo</span>
+    <section id="para-quem-e" className="surface-white section">
+      <div className="container-page">
+        {/* Cabeçalho */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-end">
+          <div className="lg:col-span-7">
+            <Reveal>
+              <p className="t-eyebrow">Público-alvo</p>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h2 className="t-h2 mt-6">
+                Uma pós. <span className="t-serif text-[#1E4C41]">Muitas profissões.</span>
+              </h2>
+            </Reveal>
           </div>
-          <h2 className="font-display font-extrabold text-4xl sm:text-6xl text-white tracking-tight">
-            Uma pós. <span className="text-[#00F296]">Muitas profissões.</span>
-          </h2>
-          <p className="text-base sm:text-xl text-[#E2E8F0] font-light">
-            Se você possui um diploma de graduação concluído, esta formação foi projetada para sua transição de alto nível para o universo da Inteligência Artificial.
-          </p>
+          <div className="lg:col-span-5">
+            <Reveal delay={0.14}>
+              <p className="t-body">
+                Se você possui um diploma de graduação concluído, esta formação foi projetada para
+                sua transição de alto nível para o universo da Inteligência Artificial.
+              </p>
+            </Reveal>
+          </div>
         </div>
 
-        {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {AREAS_DATA.map((area, idx) => {
-            const IconComponent = iconMap[area.icon] || Activity;
-            return (
-              <motion.div
-                key={area.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: idx * 0.08 }}
-                className="glass-card glass-card-hover rounded-2xl p-6 flex flex-col justify-between group"
-              >
-                <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#05140F] border border-[#00F296]/40 flex items-center justify-center text-[#00F296]">
-                      <IconComponent className="w-5 h-5" />
-                    </div>
-                    <h3 className="font-display font-extrabold text-lg text-white group-hover:text-[#00F296] transition-colors">
-                      {area.title}
-                    </h3>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    {area.careers.map((career) => (
-                      <span
-                        key={career}
-                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-black border border-[#0A382A] text-xs font-mono text-[#E2E8F0]"
-                      >
-                        <CheckCircle className="w-3 h-3 text-[#00F296]" />
-                        {career}
-                      </span>
-                    ))}
-                  </div>
+        {/* Grade de áreas */}
+        <div className="scroll-strip mt-14 sm:mt-16 flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto sm:overflow-visible -mx-5 px-5 sm:mx-0 sm:px-0 pb-2 sm:pb-0">
+          {AREAS_DATA.map((area, idx) => (
+            <Reveal
+              key={area.id}
+              delay={idx * 0.06}
+              className="w-[76vw] max-w-[300px] shrink-0 sm:w-auto sm:max-w-none"
+            >
+              <article className="card card-interactive h-full p-6 flex flex-col">
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="t-h4 lowercase first-letter:uppercase">{area.title}</h3>
+                  <span className="t-numeral text-[1.5rem] text-[#C5CFC9]">
+                    {String(idx + 1).padStart(2, '0')}
+                  </span>
                 </div>
-              </motion.div>
-            );
-          })}
+
+                <span className="rule-accent mt-5" />
+
+                <div className="mt-5 flex flex-wrap gap-1.5">
+                  {area.careers.map((career) => (
+                    <span
+                      key={career}
+                      className="text-[13px] leading-tight text-[#65726C] px-2.5 py-1 rounded-md bg-[#F4F5F0]"
+                    >
+                      {career}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            </Reveal>
+          ))}
         </div>
 
-        {/* Highlight Banner */}
-        <div className="p-8 rounded-2xl glass-card border border-[#00F296]/30 bg-gradient-to-r from-[#031F16] via-black to-black flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-2 text-center md:text-left">
-            <h4 className="font-display font-extrabold text-xl sm:text-2xl text-white">
-              Formação Multidisciplinar Aberta
-            </h4>
-            <p className="text-sm text-[#E2E8F0] font-light max-w-2xl">
-              Qualquer diploma de graduação concluído concede acesso. A Inteligência Artificial é uma competência transversal aplicável a todas as carreiras.
-            </p>
+        {/* Faixa de destaque — sem card sobre card */}
+        <Reveal>
+          <div className="mt-14 pt-10 border-t border-[#DDE3DF] flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <div className="max-w-2xl">
+              <h3 className="t-h3">Formação multidisciplinar aberta</h3>
+              <p className="t-body mt-3">
+                Qualquer diploma de graduação concluído concede acesso. A Inteligência Artificial é
+                uma competência transversal aplicável a todas as carreiras.
+              </p>
+            </div>
+            <a href="#inscricao" className="btn btn-primary shrink-0">
+              Garantir minha vaga
+            </a>
           </div>
-          <a
-            href="#inscricao"
-            className="px-8 py-3.5 bg-[#00F296] hover:bg-[#6FFBC9] text-black font-display font-bold text-xs uppercase tracking-wider rounded-full shadow-[0_0_25px_rgba(0,242,150,0.4)] whitespace-nowrap transition-all"
-          >
-            Garantir Minha Vaga
-          </a>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

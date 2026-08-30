@@ -1,7 +1,7 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Sparkles, Zap, CheckCircle2 } from 'lucide-react';
-import { AiEngineWidget } from './AiEngineWidget';
+import { ArrowUpRight } from 'lucide-react';
+import { Reveal } from './Reveal';
+import { HeroComposition } from './HeroComposition';
 
 interface HeroSectionProps {
   onOpenForm: () => void;
@@ -20,108 +20,87 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenForm }) => {
     'Gestão'
   ];
 
+  const shortcuts = [
+    { label: 'Matriz curricular', href: '#modulos' },
+    { label: 'Microcertificações', href: '#microcertificacoes' },
+    { label: 'Projetos práticos', href: '#projetos' },
+    { label: 'Tech Labs', href: '#tech-labs' },
+    { label: 'Competências', href: '#competencias' },
+    { label: 'Trilhas profissionais', href: '#trilhas' },
+    { label: 'Investimento', href: '#informacoes' }
+  ];
+
   return (
-    <section className="relative min-h-screen pt-32 pb-20 px-4 sm:px-6 lg:px-8 flex flex-col justify-center overflow-hidden bg-black">
-      {/* Background Giant Watermark Outline Text */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none z-0 opacity-10 whitespace-nowrap">
-        <span className="font-editorial font-extrabold text-[14vw] tracking-tighter text-outline-thick uppercase">
-          UNIVC AI
-        </span>
-      </div>
+    <section className="surface-shell pt-[124px] pb-16 sm:pt-[152px] sm:pb-24 lg:pt-[168px] lg:pb-32 overflow-hidden">
+      <div className="container-page">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-10 items-center">
+          {/* Coluna editorial */}
+          <div className="lg:col-span-7">
+            <Reveal>
+              <p className="t-eyebrow">Pós-graduação · 360 horas</p>
+            </Reveal>
 
-      {/* Decorative Neon Halo Ring */}
-      <div className="absolute top-1/4 right-[5%] w-80 h-80 lg:w-[500px] lg:h-[500px] rounded-full border border-[#00F296]/20 bg-gradient-to-br from-[#00F296]/10 to-transparent blur-3xl animate-pulse pointer-events-none" />
+            <Reveal delay={0.08}>
+              <h1 className="t-display mt-6">
+                Inteligência Artificial para{' '}
+                <span className="t-serif text-[#1E4C41]">transformar sua profissão.</span>
+              </h1>
+            </Reveal>
 
-      <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        {/* Left Hero Column: Headline & Action CTAs */}
-        <div className="lg:col-span-7 space-y-8 text-left">
-          {/* Institution Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-[#00F296]/40 text-[#00F296] text-xs font-mono tracking-wider uppercase"
-          >
-            <Sparkles className="w-4 h-4 text-[#00E5FF] animate-spin" />
-            <span>UNIVC • 360h • Aberta a Todas as Áreas</span>
-          </motion.div>
+            <Reveal delay={0.16}>
+              <p className="t-lead mt-7 max-w-[36rem]">
+                Uma formação multidisciplinar para profissionais de todas as áreas: aprenda a
+                projetar, automatizar e aplicar Inteligência Artificial na sua carreira —{' '}
+                <strong className="font-medium text-[#19211E]">sem precisar programar.</strong>
+              </p>
+            </Reveal>
 
-          {/* Main Larger Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-display font-extrabold text-5xl sm:text-7xl lg:text-8xl text-white tracking-tight leading-[1.02]"
-          >
-            Inteligência Artificial para{' '}
-            <span className="bg-gradient-to-r from-[#00F296] via-[#00E5FF] to-[#E2FF54] bg-clip-text text-transparent">
-              transformar a sua profissão.
-            </span>
-          </motion.h1>
+            <Reveal delay={0.24}>
+              <div className="mt-10 flex flex-col sm:flex-row gap-3">
+                <button onClick={onOpenForm} className="btn btn-primary">
+                  Quero me inscrever
+                </button>
+                <a href="#visao-geral" className="btn btn-secondary">
+                  Conhecer a pós
+                </a>
+              </div>
+            </Reveal>
 
-          {/* Streamlined Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-lg sm:text-2xl text-[#E2E8F0] font-normal leading-relaxed max-w-2xl"
-          >
-            Aprenda a projetar, automatizar e aplicar Inteligência Artificial na sua carreira —{' '}
-            <strong className="text-white font-bold underline decoration-[#00F296] underline-offset-4">
-              sem precisar programar.
-            </strong>
-          </motion.p>
+            {/* Atalhos para os conteúdos complementares */}
+            <Reveal delay={0.3}>
+              <nav aria-label="Atalhos da página" className="mt-10 pt-8 hairline">
+                <p className="t-micro mb-4">Ir direto para</p>
+                <div className="scroll-strip flex gap-2 overflow-x-auto sm:flex-wrap sm:overflow-visible -mx-5 px-5 sm:mx-0 sm:px-0 pb-1">
+                  {shortcuts.map((item) => (
+                    <a key={item.href} href={item.href} className="btn-shortcut shrink-0">
+                      {item.label}
+                      <ArrowUpRight className="w-3.5 h-3.5 shrink-0" strokeWidth={1.75} />
+                    </a>
+                  ))}
+                </div>
+              </nav>
+            </Reveal>
 
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center gap-4 pt-2"
-          >
-            <button
-              onClick={onOpenForm}
-              className="w-full sm:w-auto px-8 py-4 bg-[#00F296] hover:bg-[#6FFBC9] text-black font-display font-bold text-sm tracking-wider uppercase rounded-full shadow-[0_0_35px_rgba(0,242,150,0.5)] hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 group cursor-pointer"
-            >
-              <Zap className="w-4 h-4 fill-current" />
-              <span>Quero Conhecer a Pós</span>
-            </button>
+            <Reveal delay={0.38}>
+              <div className="mt-10 pt-8 hairline">
+                <p className="t-micro mb-4">Desenvolvida para graduados das áreas de</p>
+                <div className="flex flex-wrap gap-x-2 gap-y-2">
+                  {targetAreas.map((area) => (
+                    <span key={area} className="pill">
+                      {area}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
 
-            <a
-              href="#modulos"
-              className="w-full sm:w-auto px-8 py-4 glass-card hover:bg-[#031F16] text-white font-display font-bold text-sm tracking-wider uppercase rounded-full border border-[#0A382A] hover:border-[#00F296]/60 transition-all duration-300 flex items-center justify-center gap-2"
-            >
-              <span>Ver Matriz Curricular</span>
-            </a>
-          </motion.div>
-
-          {/* Professional Target Areas Tags */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="pt-6 border-t border-[#0A382A]"
-          >
-            <p className="text-xs font-mono text-[#94A3B8] uppercase tracking-widest mb-3">
-              Desenvolvida para graduados das áreas:
-            </p>
-            <div className="flex flex-wrap gap-2 text-xs font-semibold text-[#E2E8F0]">
-              {targetAreas.map((area) => (
-                <span
-                  key={area}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#05140F] border border-[#0A382A] text-xs font-mono text-[#E2E8F0] hover:border-[#00F296] transition-colors"
-                >
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#00F296]" />
-                  {area}
-                </span>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Right Hero Column: Anexo 4 Dynamic Interactive AiEngineWidget */}
-        <div className="lg:col-span-5">
-          <AiEngineWidget />
+          {/* Composição abstrata */}
+          <div className="lg:col-span-5">
+            <Reveal delay={0.2} y={24}>
+              <HeroComposition />
+            </Reveal>
+          </div>
         </div>
       </div>
     </section>
